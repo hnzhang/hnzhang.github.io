@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <title>Redux idea demo</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-header">Use plain HTML and Javascript to demo idea of React-Redux</h1>
+    <div class="panel panel-default">
+      <div class="pannel-body">
+        <details>
+          <summary>What is Redux</summary>
+          <dl>
+            <dt>Store</dt>
+            <dd>store of data, it should be single source for redux/flux</dd>
+            <dt>Dispatcher</dt>
+            <dt>Reducer</dt>
+          </dl>
+        </details>
+      </div>
+    </div>
+    <div class="jumbotron">
+      <h2>Counter:</h2>
+      <div id="counter" class="well"> 0 </div>
+      <button id="increase" onclick="increaseCount()" class="btn btn-primary">Increase</button>
+      <button id="decrease" onclick="decreaseCount()" class="btn btn-primary"> decrease </button>
+      <p>You can view the source code of this page to see how it works</p>
+    </div>
+  </div>
+</body>
+<script>
+	const counter = (state = 0, action) =>{
+	switch(action.type){
+  	case 'INCREMENT':
+    	return state +1;
+    case 'DECREMENT':
+    	return state -1;
+    default:
+    	return state;
+  }
+}
+
+const createStore = (reducer) =>{
+	let state;
+  let listeners = [];
+  
+  const getState = ()=> state;
+  
+  const dispatch = (action) =>{
+  	state = reducer(state, action);
+    console.log("number of listeners", listeners.length);
+    listeners.forEach(listener => listener());
+  }
+  
+  const subscribe = (listener)=>{
+  	listeners.push(listener);
+  }
+  dispatch({});//initialization
+  
+  return {getState, dispatch, subscribe};
+};
+
+const store = createStore(counter);//bind with reducer
+console.log(store.getState());
+
+const render = ()=>{
+	document.getElementById("counter").innerText = store.getState();
+}
+
+store.subscribe(render);
+//render();
+actionCallback = (actionType) =>{
+	return ()=>{
+		store.dispatch({type:actionType});
+  }
+}
+increaseCount = actionCallback("INCREMENT");
+decreaseCount = actionCallback("DECREMENT");
+</script>
+
+</html>
