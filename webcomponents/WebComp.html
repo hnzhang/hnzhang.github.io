@@ -1,0 +1,61 @@
+<DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Demo of Web Components</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    -->
+</head>
+<body>
+    <h1>Word Count Demo</h1>
+    <article contenteditable="true">
+        <p>This is a paragraph</p>
+        <p>Long long time ago, there was a king!</p>
+        <p> He loves the horse very much!</p>
+        <p is="word-count"></p>
+    </article>
+    <script src="WorldCount.js"></script>
+    <h1>Tooltip demo</h1>
+    <popup-info img="img/alt.png" text="Whatever info you put here wull be displayed as prompt" ></popup-info>
+    <script src="PopUpInfo.js"></script>
+    <h1>Demo of template and slot with Web Component</h1>
+    <template id="element-details-template">
+        <style>
+            details {font-family: "Open Sans Light",Helvetica,Arial}
+            .name {font-weight: bold; color: #217ac0; font-size: 120%}
+            h4 { margin: 10px 0 -8px 0; }
+            h4 span { background: #217ac0; padding: 2px 6px 2px 6px }
+            h4 span { border: 1px solid #cee9f9; border-radius: 4px }
+            h4 span { color: white }
+            .attributes { margin-left: 22px; font-size: 90% }
+            .attributes p { margin-left: 16px; font-style: italic }
+        </style>
+        <details>
+            <summary>
+                <span>
+                    <code class="name"> &it;<slot name='element-name'>NEED NAME</slot> &gt; </code>
+                    <i class="desc"><slot name="description">NEED DESCRIPTION</slot></i>
+                </span>
+            </summary>
+            <div class="attributes">
+                <h4><span>Attributes</span></h4>
+                <slot name="attributes"><p>NONE</p></slot>
+            </div>
+        </details>
+    </template>
+
+    <element-details>
+        <span slot="element-name">House</span>
+        <span slot="description"> A house is a place a person or a family live, and where babies grow up.</span>
+        <dl slot="attributes">
+            <dt>Address</dt>
+            <dd>Where the house locate, specified with civic number, street name, city name, province name, and country</dd>
+            <dt>Owner</dt>
+            <dd>The person(s) who purchased the house, and has title on the asset certificate</dd>
+        </dl>
+    </element-details>
+    <script src="ElementDetails.js"></script>
+</body>
+</html>
